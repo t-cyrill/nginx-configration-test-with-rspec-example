@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf/nginx/etc/nginx:/etc/nginx
+    networks:
+      httpspec:
+  rspec:
+    image: ruby:2.6-slim
+    volumes:
+      - ./conf/rspec:/opt/ruby
+    entrypoint: /opt/ruby/entrypoint.sh
+    networks:
+      httpspec:
+  sinatra:
+    image: ruby:2.6-slim
+    volumes:
+      - ./conf/sinatra:/opt/app
+    entrypoint: /opt/app/entrypoint.sh
+    networks:
+      httpspec:
+        aliases:
+          - upstream00
+          - upstream01
+          - upstream02
+networks:
+  httpspec:
